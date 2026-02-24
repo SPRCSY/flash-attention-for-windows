@@ -63,7 +63,7 @@ jobs:
         if: runner.os == 'Windows'
 
       - name: Install Windows CUDA ${{ matrix.cuda }}
-        uses: Jimver/cuda-toolkit@v0.2.23
+        uses: Jimver/cuda-toolkit@v0.2.30
         id: cuda-toolkit-win
         with:
           cuda: "${{ matrix.cuda }}"
@@ -73,7 +73,7 @@ jobs:
 
       # From FA2 repo
       - name: Install Linux CUDA ${{ matrix.cuda }}
-        uses: Jimver/cuda-toolkit@v0.2.23
+        uses: Jimver/cuda-toolkit@v0.2.30
         id: cuda-toolkit-Linux
         with:
           cuda: "${{ matrix.cuda }}"
