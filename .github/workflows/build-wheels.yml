@@ -71,6 +71,27 @@ jobs:
           sub-packages: '["nvcc", "cudart", "cublas", "cufft", "curand", "cusolver", "cusparse", "visual_studio_integration"]'
         if: runner.os == 'Windows'
 
+      - name: Fix CUDA 13 header path (Windows workaround)
+        if: runner.os == 'Windows' && contains(matrix.cuda, '13.')
+        shell: pwsh
+        run: |
+          $crtDir = "$env:CUDA_PATH\include\crt"
+          if (-not (Test-Path $crtDir)) {
+            New-Item -ItemType Directory -Force -Path $crtDir | Out-Null
+            Write-Host "Created directory: $crtDir"
+          }
+          
+          $sourceFile = "$env:CUDA_PATH\include\host_defines.h"
+          $targetFile = "$crtDir\host_defines.h"
+          
+          if (Test-Path $sourceFile) {
+            Copy-Item -Path $sourceFile -Destination $targetFile -Force
+            Write-Host "Successfully copied host_defines.h to $targetFile"
+          } else {
+            Write-Error "Source file not found: $sourceFile"
+            exit 1
+          }
+
       # From FA2 repo
       - name: Install Linux CUDA ${{ matrix.cuda }}
         uses: Jimver/cuda-toolkit@v0.2.30
