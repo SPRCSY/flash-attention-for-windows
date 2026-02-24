@@ -26,7 +26,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: ["windows-11"]
+        os: ["windows-latest"]
         pyver: [ "3.11", "3.12"]
         cuda: ["13.0.2"]
         torchver: ["2.9.0","2.10.0"]
